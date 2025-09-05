@@ -3,7 +3,18 @@ import cloudy from "../assets/images/cloudy.png"
 import rainy from "../assets/images/rainy.png"
 import snowy from "../assets/images/snowy.png"
 
+import { useState } from 'react';
+
 const WeatherApp = () => {
+    const [data, setData] = useState({});
+    const apiKey = import.meta.env.VITE_WEATHER_APP_API_KEY;
+    const search = async () => {
+        const url = `https://api.openweathermap.org/data/2.5/weather?q={city name}&units=Metric&appid=${apiKey}`;
+        const res = await fetch(url);
+        const searchData = await res.json();
+        setData(searchData);
+    }
+
     return (
         <div className="container">
             <div className="weather-app">
@@ -14,7 +25,7 @@ const WeatherApp = () => {
                     </div>
                     <div className="search-bar">
                         <input type="text" placeholder="Enter location" />
-                        <i className="fa-solid fa-magnifying-glass"></i>
+                        <i className="fa-solid fa-magnifying-glass" onClick={search}></i>
                     </div>
                 </div>
                 <div className="weather">
